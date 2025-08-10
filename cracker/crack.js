@@ -53,7 +53,6 @@ function(C, A) { // { target: #s.example.loc }
 
   let resetState = name => {
     #db.r({ _id: "crackState/" + name });
-    #D("cracker state reset");
   }
 
   let storeState = (name, state) => {
@@ -105,8 +104,6 @@ function(C, A) { // { target: #s.example.loc }
         state.currLock = null;
         // step 7: save state to db
         storeState(name, state);
-        #D(name + " " + JSON.stringify(state.args))
-        #D(out);
         return { ok: true, msg: "breached - " + (Date.now() - start) + "ms && " + calls + " calls in this run" };
       }
       if (_END - Date.now() < 1500) {
@@ -135,7 +132,6 @@ function(C, A) { // { target: #s.example.loc }
         }
       } catch (e) {
         if (e == "rotation") {
-          #D("ROTATED");
           state.rotationState = {};
           state.args = {};
           continue;
@@ -150,7 +146,6 @@ function(C, A) { // { target: #s.example.loc }
   };
 
   let l = {
-
     getStdErr(out) {
       let match = out.match(/`VLOCK_ERROR`\n(.*)$/);
       return match && match[1];
@@ -287,5 +282,5 @@ function(C, A) { // { target: #s.example.loc }
     resetState(name);
   }
 
-  return #D(crack(name, loc));
+  return crack(name, loc);
 }
